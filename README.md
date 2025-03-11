@@ -18,9 +18,9 @@
   </pre>
 
 <div align="center">
-  <h1>📚 NJUST 课程攻略共享计划</h1>
+  <h1>📚 南京理工大学 · 开放知识库</h1>
 
-  <p>南京理工大学 · 开放知识库</p>
+  <p>NJUST OPENLIB</p>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/NJUST-OpenLib/NJUST-OpenLib?color=blue&style=flat-square"></a>
   <a href="https://github.com/NJUST-OpenLib/NJUST-OpenLib/graphs/contributors"><img src="https://img.shields.io/github/contributors/NJUST-OpenLib/NJUST-OpenLib?style=flat-square"></a>
 </div>
