@@ -1,303 +1,785 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NJUST.WIKI - 南京理工大学开放知识库</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-blue: #00467F;
-            /* 南理工主题蓝 */
-            --accent-orange: #FF6B35;
-            /* 科技感强调色 */
-            --text-dark: #2A3439;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NJUST.WIKI - 南京理工大学学生资源平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <!-- Maple Mono 字体 -->
+  <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/maple-mono-cn/dist/MapleMono-CN-Regular/result.css' /> 
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-
-        /* 导航栏 */
-        .navbar {
-            background: var(--primary-blue);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            color: white;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-orange);
-        }
-
-        /* 移动端菜单 */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        /* 主内容区 */
-        .hero {
-            margin-top: 80px;
-            padding: 4rem 5%;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            text-align: center;
-        }
-
-        h1 {
-            color: var(--primary-blue);
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .description {
-            color: var(--text-dark);
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            line-height: 1.6;
-        }
-
-        /* 分类卡片 */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            padding: 2rem 5%;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* GitHub链接 */
-        .github-section {
-            text-align: center;
-            padding: 2rem;
-            background: var(--text-dark);
-            color: white;
-        }
-
-        .github-link {
-            color: var(--accent-orange);
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: var(--primary-blue);
-                flex-direction: column;
-                padding: 1rem;
+  <!-- 配置 Tailwind 自定义主题 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#00B42A',
+            neutral: {
+              100: '#F5F7FA',
+              200: '#E5E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
             }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-        }
-
-        .placeholder-section {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 5%;
-        }
-
-        .construction-banner {
-            background: #fff8e1;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: #eee;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary-blue);
-            transition: width 0.5s ease;
-        }
-
-        .callout-card {
-            background: white;
-            border: 2px dashed var(--primary-blue);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .contribute-options {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .github-button {
-            background: #333;
-            color: white !important;
-            padding: 0.8rem;
-            border-radius: 6px;
-            transition: 0.3s;
-        }
-
-        .project-link {
-            color: var(--primary-blue);
-            font-weight: bold;
-            text-decoration: underline;
-        }
-    </style>
+          },
+          fontFamily: {
+            'sans': ['PingFang SC', 'Microsoft YaHei', 'system-ui', 'sans-serif'],
+            'mono': ['Maple Mono CN', 'Fira Code', 'Cascadia Code', 'Source Code Pro', 'Consolas', 'monospace'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .hover-scale {
+        transition: transform 0.3s ease;
+      }
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
+      .gradient-overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+      }
+    }
+  </style>
+  
+  <!-- 引入优化字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    @font-face {
+      font-family: '霞鹜文楷 SC';
+      src: url('https://cdn.jsdelivr.net/gh/chawyehsu/lxgw-wenkai-webfont@latest/dist/LXGWWenKaiMonoTC-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    
+    /* 全局颜色变量 */
+    :root {
+      --color-bg: #F5F7FA;
+      --color-text: #1D2129;
+      --color-text-secondary: #4E5969;
+      --color-border: #E5E6EB;
+      --color-card-bg: #FFFFFF;
+      --color-code-bg: #272E3B;
+      --color-code-text: #E5E6EB;
+      --color-footer-bg: #272E3B;
+      --color-footer-text: #C9CDD4;
+      --color-footer-border: #4E5969;
+    }
+    
+    /* 移除了夜间模式设置 */
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', '霞鹜文楷 SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      letter-spacing: 0.015em;
+      line-height: 1.6;
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(135deg, #165DFF 0%, #00B42A 100%);
+    }
+    
+    .card-shadow {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    }
+    
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* 代码框样式 */
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-x: auto;
+      max-width: 100%;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: var(--color-code-bg);
+      color: var(--color-code-text);
+      font-family: 'Fira Code', 'Cascadia Code', 'Source Code Pro', Consolas, monospace;
+    }
+    
+    @media (max-width: 640px) {
+      pre {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+      }
+    }
+    
+    /* 美化滚动条 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  </style>
 </head>
+<body class="text-neutral-700 font-sans">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+    <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <span class="text-xl font-bold text-white">NJUST.WIKI</span>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#home" class="text-white hover:text-neutral-200 transition-colors">首页</a>
+        <a href="#manual" class="text-white hover:text-neutral-200 transition-colors">生存手册</a>
+        <a href="#docs" class="text-white hover:text-neutral-200 transition-colors">课程攻略</a>
+        <a href="#about" class="text-white hover:text-neutral-200 transition-colors">关于我们</a>
+      </div>
+      
+      <!-- 移动端菜单按钮 -->
+      <div class="md:hidden flex items-center">
+        <button id="menuBtn" class="text-white text-2xl">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+        <a href="#home" class="text-neutral-700 hover:text-primary transition-colors py-2 border-b border-neutral-200">首页</a>
+        <a href="#manual" class="text-neutral-700 hover:text-primary transition-colors py-2 border-b border-neutral-200">生存手册</a>
+        <a href="#docs" class="text-neutral-700 hover:text-primary transition-colors py-2 border-b border-neutral-200">课程攻略</a>
+        <a href="#about" class="text-neutral-700 hover:text-primary transition-colors py-2 border-b border-neutral-200">关于我们</a>
+      </div>
+    </div>
+  </header>
 
-<body>
-    <header class="navbar">
-        <div class="logo">NJUST.WIKI</div>
-        <nav class="nav-links">
-            <a href="#home">首页</a>
-            <a href="#wiki">维基目录</a>
-            <a href="#contribute">参与贡献</a>
-            <a href="#about">关于我们</a>
-        </nav>
-        <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-    </header>
+  <!-- 英雄区域 -->
+  <section id="home" class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute w-96 h-96 rounded-full bg-white top-20 -right-20 animate-float"></div>
+      <div class="absolute w-72 h-72 rounded-full bg-white -bottom-10 -left-10 animate-float" style="animation-delay: 2s"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 py-20 relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold text-white leading-tight mb-6 text-shadow font-sans">
+          南京理工大学<br>开放知识库
+        </h1>
+        <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-10 max-w-2xl mx-auto">
+          汇集南理工实用信息，帮助你更好地了解校园、规划学业、享受大学生活
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#manual" class="w-full sm:w-auto px-8 py-4 bg-white text-primary font-medium rounded-full shadow-lg hover:shadow-xl transition-all hover-scale">
+            探索生存手册
+          </a>
+          <a href="#docs" class="w-full sm:w-auto px-8 py-4 bg-transparent text-white border-2 border-white font-medium rounded-full hover:bg-white/10 transition-all hover-scale">
+            查看课程攻略
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-0 left-0 w-full">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100">
+        <path fill="#F5F7FA" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,53.3C672,53,768,75,864,74.7C960,75,1056,53,1152,48C1248,43,1344,53,1392,58.7L1440,64L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path>
+      </svg>
+    </div>
+  </section>
 
-    <main>
-        <section class="hero">
-            <h1>南京理工大学知识共享平台</h1>
-            <p class="description">
-                理工维基是由学生自主维护的开放式知识库，涵盖课程资料、实验指南、科研经验等多元化内容。
-                我们致力于构建可持续的学术资源共享生态，目前已收录1篇高质量文档，日均访问量突破1次。
-            </p>
-            <div class="card-container">
-                <div class="card">
-                    <h3><i class="fas fa-book-open"></i> 课程百科</h3>
-                    <p>覆盖30+专业核心课程知识体系</p>
+  <!-- 生存手册部分 -->
+  <section id="manual" class="py-24 bg-neutral-100">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,4vw,2.5rem)] font-bold text-neutral-700 mb-4 font-sans">南京理工大学生存手册</h2>
+        <p class="text-neutral-500 text-lg">一站式获取校园生活实用信息，让你的大学生活更加从容</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1">
+          <div class="bg-white rounded-2xl overflow-hidden shadow-xl card-shadow hover-scale">
+            <img src="https://picsum.photos/800/500?random=1" alt="南京理工大学生存手册预览" class="w-full h-64 object-cover">
+            <div class="p-8">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <i class="fa-solid fa-map"></i>
                 </div>
-                <div class="card">
-                    <h3><i class="fas fa-flask"></i> 实验指南</h3>
-                    <p>200+实验室操作规范与设备说明</p>
-                </div>
-                <div class="card">
-                    <h3><i class="fas fa-users"></i> 社区协作</h3>
-                    <p>开放编辑权限，共建知识库</p>
-                </div>
+                <h3 class="ml-4 text-xl font-semibold text-neutral-700">校园生活指南</h3>
+              </div>
+              <p class="text-neutral-500 mb-6">
+                包含校园地图、宿舍生活、食堂指南、快递点、运动设施等全方位的校园生活信息，帮助新生快速适应大学生活。
+              </p>
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">校园地图</span>
+                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">食堂攻略</span>
+                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">宿舍生活</span>
+                <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">快递服务</span>
+              </div>
+              <a href="https://manual.njust.wiki" target="_blank" class="inline-flex items-center text-primary font-medium">
+                访问生存手册 <i class="fa-solid fa-arrow-right ml-2"></i>
+              </a>
             </div>
+          </div>
+        </div>
+        
+        <div class="order-1 md:order-2">
+          <h3 class="text-2xl font-bold text-neutral-700 mb-6">探索校园的每一个角落</h3>
+          <p class="text-neutral-500 mb-6 text-lg">
+            南京理工大学生存手册是专为南理工学生打造的综合性指南，涵盖校园生活的方方面面。无论你是新生还是即将毕业的学姐学长，都能从中找到实用的信息。
+          </p>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1 flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-semibold text-neutral-700 mb-1">新生入学指南</h4>
+                <p class="text-neutral-500">从报到流程到宿舍安排，全方位指导新生顺利开启大学生活</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1 flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-semibold text-neutral-700 mb-1">校园设施介绍</h4>
+                <p class="text-neutral-500">详细介绍图书馆、教学楼、实验室、体育馆等校园设施的使用方法</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1 flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-semibold text-neutral-700 mb-1">校园周边信息</h4>
+                <p class="text-neutral-500">提供学校周边餐饮、购物、娱乐、医疗等生活服务信息</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="https://manual.njust.wiki" target="_blank" class="px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition-colors">
+              访问主站
+            </a>
+            <a href="https://manual-v.njust.wiki" target="_blank" class="px-6 py-3 bg-white text-primary border border-primary font-medium rounded-lg hover:bg-primary/5 transition-colors">
+              备用站1
+            </a>
+            <a href="https://manual.01r.cc" target="_blank" class="px-6 py-3 bg-white text-primary border border-primary font-medium rounded-lg hover:bg-primary/5 transition-colors">
+              备用站2
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- 课程攻略部分 -->
+  <section id="docs" class="py-24 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,4vw,2.5rem)] font-bold text-neutral-700 mb-4 font-sans">南京理工大学课程攻略共享计划</h2>
+        <p class="text-neutral-500 text-lg">汇聚学姐学长的经验，让你的学业之路更加顺畅</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h3 class="text-2xl font-bold text-neutral-700 mb-6">共享知识，共同成长</h3>
+          <p class="text-neutral-500 mb-6 text-lg">
+            南京理工大学课程攻略共享计划是一个由学生自主维护的开源项目，致力于为南理工学生提供全面、实用的课程学习资料和经验分享。
+          </p>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mt-1 flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-semibold text-neutral-700 mb-1">课程评价与攻略</h4>
+                <p class="text-neutral-500">学姐学长分享的课程经验、考试技巧、推荐教材等实用信息</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mt-1 flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-semibold text-neutral-700 mb-1">学习资料分享</h4>
+                <p class="text-neutral-500">包含课件、作业、实验报告、历年试题等丰富的学习资源</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mt-1 flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="text-lg font-semibold text-neutral-700 mb-1">专业选择与规划</h4>
+                <p class="text-neutral-500">提供各专业的详细介绍、就业前景和选课建议，帮助你规划学业</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <a href="https://github.com/NJUST-OpenLib/NJUST-docs" target="_blank" class="inline-flex items-center px-6 py-3 bg-secondary text-white font-medium rounded-lg shadow-md hover:bg-secondary/90 transition-colors">
+              访问GitHub仓库 <i class="fa-brands fa-github ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <div class="bg-white rounded-2xl overflow-hidden shadow-xl card-shadow hover-scale border border-neutral-200">
+            <div class="bg-neutral-800 p-4 flex items-center justify-between">
+              <div class="flex space-x-2">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+              </div>
+              <div class="text-neutral-400 text-sm">GitHub - NJUST-docs</div>
+              <div class="text-neutral-400">
+                <i class="fa-solid fa-ellipsis-h"></i>
+              </div>            </div>
+            <div class="bg-neutral-900 text-neutral-200 p-4 sm:p-6 text-sm overflow-hidden rounded-b-lg" style="font-family: 'Maple Mono CN', monospace;">
+                <pre class="code-block" style="font-family: 'Maple Mono CN', 'Fira Code', 'Cascadia Code', 'Source Code Pro', 'Consolas', 'Courier New', monospace;">
+# NJUST 课程攻略共享计划
 
+## 项目介绍
+本项目是南京理工大学学生自发维护的课程攻略共享平台，旨在为南理工学子提供全面、实用的课程学习资料和经验分享。
 
+## 内容结构
+|-- 大学物理实验
+|   |-- README.md
+|   |-- 11120904 - 1.5 学分 - 大学物理实验（Ⅰ）
+|       |-- README.md
+|       |-- Sakura的学习心得.md
+|       |-- _附件
+|           |-- 实验1指导书.pdf
+|           |-- 参考课件.pptx
+|   |-- 1322060D - 3.5 学分 - 大学物理（Ⅱ）
+|       |-- README.md
+|       |-- Misaka的个人复习笔记.md
+|       |-- _附件
+|           |-- 实验2指导书.pdf
+|           |-- 实验指导课件.pptx
 
-            <section class="placeholder-section">
-                <div class="construction-banner">
-                    <i class="fas fa-hard-hat construction-icon"></i>
-                    <h3>知识库建设中 <span class="progress-badge">完成度 1%</span></h3>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 1%"></div>
-                    </div>
+## 如何贡献
+1. Fork 本仓库
+2. 创建你的分支: `git checkout -b my-new-feature`
+3. 提交你的修改: `git commit -am 'Add some feature'`
+4. Push 到你的分支: `git push origin my-new-feature`
+5. 提交 Pull Request
+
+## 参与贡献
+我们欢迎每一位南理工学子参与贡献，共同完善这份课程攻略！</pre>
+            </div>
+            <div class="p-6 border-t border-neutral-200">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                  <img src="https://picsum.photos/40/40?random=2" alt="用户头像" class="w-10 h-10 rounded-full mr-3">
+                  <div>
+                    <div class="font-medium text-neutral-700">NJUST-OpenLib</div>
+                    <div class="text-sm text-neutral-500">课程攻略维护团队</div>
+                  </div>
                 </div>
-
-                <div class="callout-card">
-                    <div class="callout-header">
-                        <i class="fas fa-hands-helping"></i>
-                        <h4>共建计划进行中！</h4>
-                    </div>
-                    <p class="highlight-text">
-                        我们正在集中建设 <a href="https://doc.njust.wiki" class="project-link">课程资料库</a> 项目，
-                        目前已收录12个院系、300+门课程资料
-                    </p>
-                    <div class="contribute-options">
-                        <a href="https://github.com/NJUST-OpenLib" class="github-button">
-                            <i class="fab fa-github"></i> 查看GitHub项目
-                        </a>
-                        <div class="contact-info">
-                            <i class="fas fa-envelope"></i>
-                            合作联系：admin@njust.wiki
-                        </div>
-                    </div>
+                <div class="flex space-x-3">
+                  <div class="flex items-center text-neutral-500">
+                    <i class="fa-brands fa-github mr-1"></i>
+                    <span>GitHub</span>
+                  </div>
+                  <div class="flex items-center text-neutral-500">
+                    <i class="fa-solid fa-star mr-1"></i>
+                    <span>243</span>
+                  </div>
                 </div>
-            </section>
-        </section>
-    </main>
+              </div>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">开源项目</span>
+                <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">课程攻略</span>
+                <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">学习资源</span>
+                <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">学生贡献</span>
+              </div>
+              <a href="https://github.com/NJUST-OpenLib/NJUST-docs" target="_blank" class="inline-flex items-center text-secondary font-medium">
+                查看完整仓库 <i class="fa-solid fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <footer class="github-section">
-        <h3>加入开源社区</h3>
-        <a href="https://github.com/NJUST-OpenLib/NJUST-OpenLib" class="github-link" target="_blank">
-            <i class="fab fa-github"></i>
-            GitHub仓库
-        </a>
-    </footer>
+  <!-- 贡献部分 -->
+  <section id="contribute" class="py-24 bg-neutral-100">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,4vw,2.5rem)] font-bold text-neutral-700 mb-4 font-sans">加入我们，共同建设</h2>
+        <p class="text-neutral-500 text-lg">每一份贡献都将帮助更多南理工学子</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-8 shadow-lg hover-scale">
+          <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-6">
+            <i class="fa-solid fa-pencil"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-700 mb-4">贡献内容</h3>
+          <p class="text-neutral-500 mb-6">
+            如果你有宝贵的校园生活经验或课程学习资料，欢迎加入我们的项目，分享你的知识和经验。
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              完善生存手册内容
+            </li>
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              添加课程攻略和学习资料
+            </li>
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              分享校园生活实用信息
+            </li>
+          </ul>
+          <a href="https://github.com/NJUST-OpenLib/NJUST-docs/blob/main/CONTRIBUTING.md" target="_blank" class="text-primary font-medium">
+            查看贡献指南 <i class="fa-solid fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+        
+        <div class="bg-white rounded-xl p-8 shadow-lg hover-scale">
+          <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-6">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-700 mb-4">技术支持</h3>
+          <p class="text-neutral-500 mb-6">
+            如果你擅长前端开发、后端开发或设计，欢迎参与项目的技术维护和优化工作。
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              网站开发与维护
+            </li>
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              项目架构优化
+            </li>
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              设计改进与优化
+            </li>
+          </ul>
+          <a href="https://github.com/NJUST-OpenLib" target="_blank" class="text-primary font-medium">
+            访问技术仓库 <i class="fa-solid fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+        
+        <div class="bg-white rounded-xl p-8 shadow-lg hover-scale">
+          <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl mb-6">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-700 mb-4">宣传推广</h3>
+          <p class="text-neutral-500 mb-6">
+            如果你认同我们的项目理念，欢迎帮助宣传推广，让更多南理工学子受益。
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              在校园内宣传项目
+            </li>
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              推荐给需要的同学
+            </li>
+            <li class="flex items-center text-neutral-600">
+              <i class="fa-solid fa-check text-primary mr-2"></i>
+              在社交媒体分享
+            </li>
+          </ul>
+          <a href="https://manual.njust.wiki/about/contact.html" target="_blank" class="text-primary font-medium">
+            联系我们 <i class="fa-solid fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // 移动端菜单切换
-        function toggleMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('active');
+  <!-- 关于部分 -->
+  <section id="about" class="py-24 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-[clamp(1.75rem,4vw,2.5rem)] font-bold text-neutral-700 mb-4">关于 NJUST.WIKI</h2>
+        <p class="text-neutral-500 text-lg">我们是一个由南京理工大学学生自主维护的非营利性项目</p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-xl p-8 shadow-lg mb-12">
+          <h3 class="text-2xl font-bold text-neutral-700 mb-6">项目愿景</h3>
+          <p class="text-neutral-600 mb-6 text-lg">
+            NJUST.WIKI 致力于打造一个全面、实用、易用的南京理工大学学生资源平台，帮助南理工学子更好地了解校园、规划学业、享受大学生活。
+          </p>
+          <p class="text-neutral-600 mb-6 text-lg">
+            我们相信，通过学生之间的经验分享和知识传承，可以让每一位南理工学子的大学生活更加精彩。
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="text-xl font-semibold text-neutral-700 mb-6 flex items-center">
+              <i class="fa-solid fa-shield-check text-primary mr-3"></i>
+              内容政策
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">所有内容均由南理工学生自愿贡献</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">严格审核机制，确保内容准确可靠</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">尊重知识产权，拒绝盗版和侵权内容</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">定期更新维护，保持内容的时效性</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="text-xl font-semibold text-neutral-700 mb-6 flex items-center">
+              <i class="fa-solid fa-users text-primary mr-3"></i>
+              项目团队
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <i class="fa-solid fa-user-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">由南理工学生志愿者组成的核心团队</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-user-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">来自各个学院的同学共同参与维护</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-user-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">定期招募新成员，不断注入新鲜血液</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-user-circle text-primary mt-1 mr-3"></i>
+                <span class="text-neutral-600">所有贡献者都会获得相应的感谢和认可</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="text-center">
+          <h3 class="text-xl font-semibold text-neutral-700 mb-6">关注我们</h3>
+          <div class="flex justify-center space-x-6">
+            <a href="https://github.com/NJUST-OpenLib" class="w-12 h-12 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-primary hover:text-white transition-colors">
+              <i class="fa-brands fa-github"></i>
+            </a>
+           <!---
+            <a href="#" class="w-12 h-12 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-primary hover:text-white transition-colors">
+              <i class="fa-brands fa-weixin"></i>
+            </a>
+            <a href="#" class="w-12 h-12 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-primary hover:text-white transition-colors">
+              <i class="fa-brands fa-qq"></i>
+            </a>
+            <a href="#" class="w-12 h-12 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-primary hover:text-white transition-colors">
+              <i class="fa-brands fa-weibo"></i>
+            </a>
+            -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-neutral-800 text-neutral-300 py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-6">
+            <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+            <span class="text-xl font-bold text-white">NJUST.WIKI</span>
+          </div>
+          <p class="text-neutral-400 mb-6">
+            南京理工大学学生资源平台，致力于为南理工学子提供全面、实用的校园生活和学习资源。
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://github.com/NJUST-OpenLib" class="text-neutral-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-github"></i>
+            </a>
+         <!---    <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-weixin"></i>
+            </a>
+            <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-qq"></i>
+            </a>
+        -->
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">快速链接</h4>
+          <ul class="space-y-2">
+            <li><a href="#home" class="text-neutral-400 hover:text-white transition-colors">首页</a></li>
+            <li><a href="#manual" class="text-neutral-400 hover:text-white transition-colors">生存手册</a></li>
+            <li><a href="#docs" class="text-neutral-400 hover:text-white transition-colors">课程攻略</a></li>
+            <li><a href="#contribute" class="text-neutral-400 hover:text-white transition-colors">加入我们</a></li>
+            <li><a href="#about" class="text-neutral-400 hover:text-white transition-colors">关于我们</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">相关项目</h4>
+          <ul class="space-y-2">
+            <li><a href="https://manual.njust.wiki" target="_blank" class="text-neutral-400 hover:text-white transition-colors">生存手册</a></li>
+            <li><a href="https://github.com/NJUST-OpenLib/NJUST-docs" target="_blank" class="text-neutral-400 hover:text-white transition-colors">课程攻略</a></li>
+         
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">联系我们</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fa-solid fa-envelope text-primary mr-3"></i>
+              <a href="mailto:contact@njust.wiki" class="text-neutral-400 hover:text-white transition-colors">admin@njust.wiki</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fa-brands fa-github text-primary mr-3"></i>
+              <a href="https://github.com/NJUST-OpenLib" target="_blank" class="text-neutral-400 hover:text-white transition-colors">GitHub</a>
+            </li>
+          <!-- <li class="flex items-center">
+              <i class="fa-brands fa-weixin text-primary mr-3"></i>
+              <span class="text-neutral-400">NJUST_WIKI</span>
+              --> 
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-neutral-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-neutral-500 text-sm mb-4 md:mb-0">
+          &copy; 2023 NJUST.WIKI. 保留所有权利。
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-neutral-500 hover:text-white text-sm transition-colors">隐私政策</a>
+          <a href="#" class="text-neutral-500 hover:text-white text-sm transition-colors">使用条款</a>
+          <a href="#" class="text-neutral-500 hover:text-white text-sm transition-colors">贡献指南</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-primary/95', 'shadow-md');
+        navbar.classList.remove('py-4');
+        navbar.classList.add('py-3');
+      } else {
+        navbar.classList.remove('bg-primary/95', 'shadow-md');
+        navbar.classList.remove('py-3');
+        navbar.classList.add('py-4');
+      }
+    });
+    
+    // 移动端菜单切换
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      if (mobileMenu.classList.contains('hidden')) {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      } else {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      }
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        // 关闭移动菜单
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          const icon = menuBtn.querySelector('i');
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
         }
-
-        // 窗口调整时自动关闭菜单
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.querySelector('.nav-links').classList.remove('active');
-            }
-        });
-    </script>
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // 移除了夜间模式切换功能
+  </script>
 </body>
-
 </html>
